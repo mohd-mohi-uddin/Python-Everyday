@@ -32,6 +32,6 @@
 #     paper.append(alphabet)
 # print(paper)
 
-list = ['5', '5', '6', '7', '8']
-list.index[6]
-print(list)
+# list = ['5', '5', '6', '7', '8']
+# list.
+# print(list)

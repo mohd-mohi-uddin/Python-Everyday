@@ -11,11 +11,14 @@ if height >= 120:
     elif age < 18:
         bill = 7
         print('Teen ticket is of 7$ ')
+    elif age >= 45 and age <= 55:
+        bill = 0
+        print("Your ticket is free")
     else:
         bill = 12
         print("Adult ticket is for 12$")
     while True:
-        take_photo = input("\nDo you want a photo of your ride? type 'y' if Yes or 'n' if No: \n").lower()
+        take_photo = input("\nDo you want a photo of your ride? type 'y' if Yes or 'n' if No: \n").lower
         if take_photo == "y":
             bill += 3
             print(f'Your bill is: {bill}$')

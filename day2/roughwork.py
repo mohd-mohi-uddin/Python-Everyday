@@ -55,9 +55,15 @@
 # else:
 #     print("tails")
 
-fruits = ["Strawberries", "Nectarines", "Apples", "Grapes", "Peaches", "Cherries", "Pears"]
-vegetables = ["Spinach", "Kale", "Tomatoes", "Celery", "Potatoes"]
+# fruits = ["Strawberries", "Nectarines", "Apples", "Grapes", "Peaches", "Cherries", "Pears"]
+# vegetables = ["Spinach", "Kale", "Tomatoes", "Celery", "Potatoes"]
  
-dirty_dozen = [fruits, vegetables]
+# dirty_dozen = [fruits, vegetables]
  
-print(dirty_dozen[0])
+# print(dirty_dozen[0])
+
+# password = ""
+# for char in range(0,nr_letters):
+#     random_letters = random.choice(letters)
+#     password += random_letters
+# print(password)
