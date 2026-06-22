@@ -87,11 +87,11 @@ def calculate_love_score(name1, name2):
     count2 = ""
     check1 = "true"
     check2 = "love"
-    for i in check1:
-        if i in name:
+    for i in name:
+        if i in check1:
             count1 += i
-    for j in check2:
-        if j in name:
+    for j in name:
+        if j in check2:
             count2 += j
         
     letters_in_count1 = len(count1)
