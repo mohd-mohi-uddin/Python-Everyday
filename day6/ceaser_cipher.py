@@ -85,8 +85,6 @@ while not gameover:
 
     
         
-    
-        
 
     
 
