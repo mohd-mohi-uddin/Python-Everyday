@@ -1,0 +1,47 @@
+>> LOCAL SCOPE VS GLOBAL SCOPE:
+
+the local scope means the the usage of terms inside the functions only. if there is a variable
+declared inside the function then that variable cant be accesed outside the fuction.
+
+the global scope means if the variable is declared outside the function that it can be used inside as well as outside the function.
+
+> local:
+def add(a, b):
+    a = 1
+    b = 2
+    return a + b
+
+print(a)
+
+a is not defined.
+
+> global:
+
+a = 1
+b = 2
+
+def add():
+    return a + b
+
+print(add())
+print(a + 3)
+
+>> MODIFYING GLOBAL SCOPE:
+
+if you want to access the global variable inside the fuction u can go it by using syntax: global variable name 
+
+ex:
+number = 1
+def add():
+    global number 
+    a = 2
+    return number + a
+
+print(add())
+
+Variable Type	Can modify without global?
+int, float, str, bool	❌ No (use return)
+list	                ✅ Yes
+dict	                ✅ Yes
+set	                    ✅ Yes
+
