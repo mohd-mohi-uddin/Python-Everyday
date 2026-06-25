@@ -28,3 +28,16 @@ operations = {
 
 here operation is the the operator selected by user and 
 n1 and n2 are the values selected by user.
+
+>> REMOVE IN LIST:
+
+u can delete any item in list with out its index.
+
+list.remove(item)
+
+>> REPLACING ITEAMS IN LIST:
+
+u can replace one item of list with another
+
+list[list.index(11)] = 1
+this will replace 11 with 1 in same position
