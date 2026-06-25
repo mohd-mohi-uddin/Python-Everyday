@@ -60,4 +60,4 @@ while True:
             print("\n" *100)
         elif option2["follower_count"] < option1["follower_count"]:
             print("wrong answer, game over.")
-            break
+            break 
