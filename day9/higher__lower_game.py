@@ -1,4 +1,4 @@
-import higher_upper_data
+import higher_lower_data
 import random
 LOGO = """"
  __   __  ___   _______  __   __  _______  ______   
@@ -27,11 +27,19 @@ logo2 = """"
   ## ##   ##    ## 
    ###     ######  
 """
-data_list = higher_upper_data.data
+data_list = higher_lower_data.data
 
 option1 = random.choice(data_list)
 option2 = random.choice(data_list)
 score = 0
+
+def options(want_score=True):
+    global option1, score, option2
+    option1 = option2
+    option2 = random.choice(data_list)
+    if want_score:
+        score += 1
+    return "\n" *100
 
 while True:
     if score > 0:
@@ -45,19 +53,17 @@ while True:
  
     if user_choice == "a":
         if option1["follower_count"] > option2["follower_count"]:
-            option1 = option2
-            option2 = random.choice(data_list)
-            score += 1
-            print("\n" *100)
+            print(options())
+        elif option1["follower_count"] == option2["follower_count"]:
+            print(options(False))
         elif option1["follower_count"] < option2["follower_count"]:
             print("wrong answer, game over.")
             break
     elif user_choice == "b":
         if option2["follower_count"] > option1["follower_count"]:
-            option1 = option2
-            score += 1
-            option2 = random.choice(data_list)
-            print("\n" *100)
+            print(options())
+        elif option1["follower_count"] == option2["follower_count"]:
+            print(options(False))
         elif option2["follower_count"] < option1["follower_count"]:
             print("wrong answer, game over.")
             break 
