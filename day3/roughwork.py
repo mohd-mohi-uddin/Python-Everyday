@@ -35,3 +35,6 @@
 # list = ['5', '5', '6', '7', '8']
 # list.
 # print(list)
+n= int(input("n ="))
+for i in range(n):
+    print(" " *((n-1)-i) + "*" * ((i*2)+1))
