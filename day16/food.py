@@ -1,16 +1,19 @@
 import random
 import turtle
 
-class Food:
+class Food(turtle.Turtle):
 
     def __init__(self):
-        self.food =turtle.Turtle("circle")
-        self.food.color("orange")
-        self.food.shapesize(0.5,0.5)
-        self.food.penup()
+        super().__init__()
+        self.shape("circle")
+        self.color("orange")
+        self.speed("fastest")
+        self.shapesize(0.5,0.5)
+        self.penup()
+        self.reset_food()
 
-    def make_food(self):
+    def reset_food(self):
         """code for snake food"""
         x_cor = random.randrange(-260, 261, 20)
         y_cor = random.randrange(-260, 261, 20)
-        self.food.goto(x_cor,y_cor)
+        self.goto(x_cor,y_cor)
