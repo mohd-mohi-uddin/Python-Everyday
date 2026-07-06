@@ -43,7 +43,7 @@ while game_is_on:
             scorecard.gameover_popup()
         
     snake.move()
-    time.sleep(0.2)
+    time.sleep(0.1)
     screen.update()
 
     if snake.head.distance(food) < 15:
