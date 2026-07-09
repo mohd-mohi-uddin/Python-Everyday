@@ -33,14 +33,16 @@ while game_is_on:
 
     """if snake touches end of screen it dies"""
     if snake.wall_collision():
-        game_is_on = False
-        scorecard.gameover_popup()
+        scorecard.reset_score()
+        snake.reset_snake()
+        
     
     """if snake touches its tail with head then it dies"""
     for snake.segment in snake.blocks[1:]:
         if snake.tail_collision():
-            game_is_on = False
-            scorecard.gameover_popup()
+            scorecard.reset_score()
+            snake.reset_snake()
+            
         
     snake.move()
     time.sleep(0.1)
@@ -49,5 +51,6 @@ while game_is_on:
     if snake.head.distance(food) < 15:
         snake.grow()
         food.reset_food()
+        scorecard.increase_score()
 
 screen.exitonclick()

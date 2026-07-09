@@ -71,4 +71,10 @@ class Snake:
     def tail_collision(self):
             return self.head.distance(self.segment) < 10
           
+    def reset_snake(self):
+        for i in self.blocks:
+            i.goto(1000,1000)
+        self.blocks.clear()
+        self.segments()
+        self.head = self.blocks[0]
         

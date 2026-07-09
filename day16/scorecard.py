@@ -1,17 +1,41 @@
 import turtle
 
-class Scorecard:
+class Scorecard(turtle.Turtle):
 
     def __init__(self):
-        self.gameover_text = turtle.Turtle()
-        self.gameover_text.hideturtle()
-        self.gameover_text.color("white")
+        super().__init__()
 
-    def gameover_popup(self):
-        self.gameover_text.write(
-        "Game Over!",
-        align="center",
-        font=("Courier", 25)
+        self.score = 0
+        with open(r"\Users\Hp\OneDrive\Desktop\data.txt") as data:
+            self.highscore = int(data.read())
+        self.hideturtle()
+        self.penup()
+        self.color("white")
+        self.goto(-280,270)
+        self.update_score()
+        
+    def update_score(self):
+        self.clear()
+        self.write(
+        f"Score: {self.score} High score: {self.highscore}",
+        align="left",
+        font=("Courier", 15)
         )
+
+    def reset_score(self):
+        if self.score > self.highscore:
+            self.highscore = self.score
+            with open(r"\Users\Hp\OneDrive\Desktop\data.txt",mode="w") as data:
+                data.write(f"{self.highscore}")
+        self.score = 0
+        self.update_score()
+
+
+    def increase_score(self):
+        self.score += 1
+        self.update_score()
+
+
+
     
     
