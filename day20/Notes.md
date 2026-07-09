@@ -192,3 +192,20 @@ Now Python writes:
 
 30
 
+>>>> FILE MODE:
+
+we can set mode as read write append using the mode in the open(filename, mode as "w", "r" amd "a") by using this we can 
+perform operations on files.
+
+>>>> FILE FUNCTIONS:
+
+there are three functions we can use on file to make it more easy for file editing
+
+1. file.readline() this takes ever line of the file as the item of list. 
+suppose the file has lines then it makes 6 items in the lists.
+
+2. file.replace(word to replace, new word): this replaces the word with the given word 
+in the text file.
+
+3. file.strip(): this function removes any extra spaces, unwanted things from the given string
+
