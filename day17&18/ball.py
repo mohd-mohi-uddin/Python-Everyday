@@ -26,6 +26,7 @@ class Ball(Turtle):
 
     def refresh(self):
         self.goto(0,0)
-        self.increase_speed = 0.05
         self.x_move *= -1
+        self.increase_speed = 0.05
+        
             
