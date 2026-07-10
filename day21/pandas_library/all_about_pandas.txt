@@ -1,0 +1,28 @@
+>>PANDAS:
+
+pandas are use to manipulate tabular form of data such as csv files, excel sheets,google sheets. 
+
+there is a pandas library which we can install in our code editior then we can use it in our python language.
+
+suppose there is table containg name age and city so to get manipulate the we first write:
+
+1. import pandas as pd 
+df = pd.read_csv("filename") or read_excel() or read_json()
+
+2. df.head() to get the first five rows of table
+
+3. df.tail() to get the last five rows of table.
+
+4. df["row_name"] to get the vlues of rows.
+
+5. df[["row_1","row_2"]] to getmore rows.
+
+6. df["temp"].to_list() to change vales of coloum to to_list
+
+7. df["temp"].to_dict() to change vales of coloum to a dictionary
+
+8. df["temp"].max() or min() to get maximum and minimum from the row.
+
+9. df["temp"].mean() to get the average.
+
+10. to get the dictionary to csv format we can give dict name to: pd.DataFrame(dictionary_name) to convery it to data frames 
