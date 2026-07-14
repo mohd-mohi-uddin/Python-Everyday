@@ -20,10 +20,11 @@ objectname.Mainloop()
 >to add label use : .Label()  #class
 to shoe this label on screen use the pack method: obejctname.pack()
 
->> UNLIMITED POSITIONAL ARGUMENTS:
+>> UNLIMITED ARGUMENTS:
 
 we cn give n number of arguments using * in the parethisis 
 
 def function(*args):
 
 args can be any name.
+
