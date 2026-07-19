@@ -1,9 +1,11 @@
 from tkinter import * 
 from tkinter import ttk
 from pathlib import Path
+import json
 from password_generator1 import generate_password
 from tkinter import messagebox
 BASE_DIR = Path(__file__).parent
+
 
 # ---------------------------- PASSWORD GENERATOR ------------------------------- #
 def insert_password_generator():
@@ -11,11 +13,19 @@ def insert_password_generator():
     password_input.delete(0,END)
     password_input.insert(0,password)
 
+
 # ---------------------------- SAVE PASSWORD ------------------------------- #
 def save_password():
     website_name =website_input.get()
     email = email_input.get()
     my_password = password_input.get()
+
+    new_data = {
+        website_name:{
+        "email":email,
+        "password":my_password
+    }
+    }
 
     if len(website_name) == 0 or len(email) == 0 or len(my_password) == 0:
         messagebox.showinfo(title="Oops!", message="You left some feilds empty, please type correctly.")
@@ -23,11 +33,33 @@ def save_password():
         is_ok = messagebox.askokcancel(title="Confirm Details",message= f'These are the detalis entered: \nWebsite: {website_name} \nEmail/Username: {email} \nPassword: {my_password} \n\n Press "ok" to save.')
 
         if is_ok:
-            with open(BASE_DIR /"data.txt", mode= "a") as data:
-                data.write(f"website name: {website_name}\nusername/email: {email}\npassword: {my_password}\n\n")
-
+            try:
+                with open(BASE_DIR /"data.json", mode= "r") as data:
+                    current_data = json.load(data)
+                    current_data.update(new_data)
+            except FileNotFoundError:
+                with open(BASE_DIR /"data.json", mode= "w") as data:
+                    json.dump(new_data,data, indent=4)
+            else:
+                with open(BASE_DIR /"data.json", mode= "w") as data:
+                    json.dump(current_data,data, indent=4)
+                
             for i in (website_input,email_input,password_input):
                 i.delete(0,END)
+
+
+# ---------------------------- SEARCH DETAILS------------------------------- #
+def search_details():
+    website = website_input.get()
+
+    with open(BASE_DIR /"data.json") as data_file:
+        content = json.load(data_file)
+        details = content[website]
+        email = details["email"]
+        password = details["password"]
+
+    messagebox.showinfo(title=website,message=f"Your email/Username is: {email} \nYour password is: {password}")
+        
 
 # ---------------------------- UI SETUP ------------------------------- #
 window = Tk()
@@ -52,8 +84,8 @@ password_label.grid(column=0,row=3)
 
 
 """entry section"""
-website_input = ttk.Entry(width=50)
-website_input.grid(column=1,row=1,columnspan=2)
+website_input = ttk.Entry(width=31)
+website_input.grid(column=1,row=1)
 website_input.focus()
 
 email_input = ttk.Entry(width=50)
@@ -64,6 +96,9 @@ password_input.grid(column=1,row=3)
 
 
 """button section"""
+search_button = ttk.Button(text="Search",width=17,command= search_details)
+search_button.grid(column=2,row=1)
+
 password_button = ttk.Button(text="Generate Password", command=insert_password_generator)
 password_button.grid(column=2,row=3)
 
