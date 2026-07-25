@@ -4,8 +4,8 @@ import os
 
 STOCK = "TSLA"
 COMPANY_NAME = "Tesla Inc"
-API_KEY = "use api key here"
-NEWS_API_KEY= "use api key here"
+API_KEY = os.environ["ALPHA_VANTAGE_API_KEY"]
+NEWS_API_KEY = os.environ["NEWS_API_KEY"]
 account_sid = os.environ["ACCOUNT_SID"]
 auth_token = os.environ["AUTH_TOKEN"]
 symbol = None
