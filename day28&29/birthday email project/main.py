@@ -33,7 +33,7 @@ for index,row in df.iterrows():
                 from_addr=my_email,
                 to_addrs=row["email"],
                 msg=f"Subject:Birthday Wish.\n\n{letter}"
-                )       
+                )
 
 
 
