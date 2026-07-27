@@ -7,8 +7,8 @@ account_sid = os.environ["ACCOUNT_SID"]
 auth_token = os.environ["AUTH_TOKEN"]
 
 PARAMETERS= {
-    "lat": 66.503059,
-    "lon": 25.726967,
+    "lat": 17.344036,
+    "lon": 78.461403,
     "appid": api_key,
     "cnt":4
 }
