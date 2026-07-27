@@ -53,10 +53,10 @@ if day_before_yesterday > yesterday:
     if loss >= 5:
         symbol = "🔻"
         send_mail(loss,symbol)
-        print("messgae sent")
+        print("messgae sent on your phone")
 elif yesterday > day_before_yesterday:
     profit = ((yesterday-day_before_yesterday)/day_before_yesterday)*100
     if profit >= 5:
         symbol = "🔺"
         send_mail(profit,symbol)
-        print("messgae sent")
+        print("messgae sent on your phone")
