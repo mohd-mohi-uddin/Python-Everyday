@@ -1,4 +1,7 @@
 import turtle
+from pathlib import Path
+
+BASE_DIR = Path(__file__).parent
 
 class Scorecard(turtle.Turtle):
 
@@ -6,7 +9,7 @@ class Scorecard(turtle.Turtle):
         super().__init__()
 
         self.score = 0
-        with open(r"\Users\Hp\OneDrive\Desktop\data.txt") as data:
+        with open(BASE_DIR/"data.txt") as data:
             self.highscore = int(data.read())
         self.hideturtle()
         self.penup()
@@ -25,7 +28,7 @@ class Scorecard(turtle.Turtle):
     def reset_score(self):
         if self.score > self.highscore:
             self.highscore = self.score
-            with open(r"\Users\Hp\OneDrive\Desktop\data.txt",mode="w") as data:
+            with open(BASE_DIR/"data.txt",mode="w") as data:
                 data.write(f"{self.highscore}")
         self.score = 0
         self.update_score()
