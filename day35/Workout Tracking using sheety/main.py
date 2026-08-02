@@ -10,18 +10,10 @@ APP_ID = os.getenv("APP_ID")
 
 print(APP_ID)
 print(NUTRITION_API_KEY)
-# GENDER = YOUR GENDER
-# WEIGHT_KG = YOUR WEIGHT
-# HEIGHT_CM = YOUR HEIGHT
-# AGE = YOUR AGE
 
 CALORIES_ENDPOINT = "https://app.100daysofpython.dev/v1/nutrition/natural/exercise"
 calories_config = {
     "query": input("what excersise you did?"),
-#     "gender": GENDER,
-#     "weight_kg": WEIGHT_KG,
-#     "height_cm": HEIGHT_CM,
-#     "age": AGE
 }
 
 headers = {
@@ -34,12 +26,10 @@ response = requests.post(url= CALORIES_ENDPOINT, json= calories_config, headers=
 exercises= response.json()["exercises"]
 
 now = datetime.now()
-date = now.strftime("%d/%m/%Y")
+date = now.strftime("%d/%m/%Y") 
 time = now.strftime("%X")
 
-
 Sheety_endpoint = "https://api.sheety.co/4d8686b3cb0e7ec02e51afe4c3ddc9ca/workoutTracking/workouts"
-
 
 for exercise in exercises:
     print(exercise)
