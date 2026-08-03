@@ -5,32 +5,40 @@ import requests
 
 load_dotenv()
 
-TOMORROW = (datetime.now()+timedelta(days = 1)).strftime("%Y-%m-%d")
-DATE_SIX_MONTHS_LATER = (datetime.now()+timedelta(days = 180)).strftime("%Y-%m-%d")
-TODAY = datetime.now().strftime("%Y-%m-%d")
-
-
 class FlightSearch:
     #This class is responsible for talking to the Flight Search API.
     def __init__(self):
         self.api_key = os.getenv("api_key")
 
         self.flight_endpoint = "https://serpapi.com/search"
-        self.parameters = {
+
+        
+
+    def run_flight_api(self, origin_city_code, destination_city_code, from_time, to_time):
+
+        query = {
             "engine": "google_flights",
-            "departure_id": "LON",
-            "arrival_id": "TOK",
-            "outbound_date": TOMORROW,
-            "return_date": DATE_SIX_MONTHS_LATER, 
+            "departure_id": origin_city_code,
+            "arrival_id": destination_city_code,
+            "outbound_date": from_time.strftime("%Y-%m-%d"),
+            "return_date": to_time.strftime("%Y-%m-%d"),
             "type": "1",
             "adults": "1",
             "currency": "GBP",
             "api_key": self.api_key,
-            }
-        self.run_flight_api()
+        }
 
-    def run_flight_api(self):
-        response = requests.get(url=self.flight_endpoint, params= self.parameters)
-        print(response.status_code)
-        print(response.json())
+        response = requests.get(url=self.flight_endpoint, params= query)
+        response.raise_for_status()
+        data = response.json()
+
+        if response.status_code != 200:
+            print(f"check_flights() response code: {response.status_code}")
+            return None
+
+        if "error" in data:
+            print(f"API error: {data['error']}")
+            return None
+
+        return data
 
