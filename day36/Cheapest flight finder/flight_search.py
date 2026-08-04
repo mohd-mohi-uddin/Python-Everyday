@@ -1,21 +1,19 @@
-from datetime import datetime, timedelta
 import os
-from dotenv import load_dotenv
 import requests
+from dotenv import load_dotenv
 
+# Load environment variables from .env file
 load_dotenv()
 
+SERPAPI_ENDPOINT = "https://serpapi.com/search"
+
+
 class FlightSearch:
-    #This class is responsible for talking to the Flight Search API.
+
     def __init__(self):
-        self.api_key = os.getenv("api_key")
+        self.api_key = os.getenv("SERPAPI_API_KEY")
 
-        self.flight_endpoint = "https://serpapi.com/search"
-
-        
-
-    def run_flight_api(self, origin_city_code, destination_city_code, from_time, to_time):
-
+    def check_flights(self, origin_city_code, destination_city_code, from_time, to_time):
         query = {
             "engine": "google_flights",
             "departure_id": origin_city_code,
@@ -28,17 +26,14 @@ class FlightSearch:
             "api_key": self.api_key,
         }
 
-        response = requests.get(url=self.flight_endpoint, params= query)
-        response.raise_for_status()
-        data = response.json()
+        response = requests.get(url=SERPAPI_ENDPOINT, params=query)
 
         if response.status_code != 200:
             print(f"check_flights() response code: {response.status_code}")
             return None
 
+        data = response.json()
         if "error" in data:
             print(f"API error: {data['error']}")
             return None
-
         return data
-
