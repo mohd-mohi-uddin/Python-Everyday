@@ -37,3 +37,4 @@ class FlightSearch:
             print(f"API error: {data['error']}")
             return None
         return data
+
