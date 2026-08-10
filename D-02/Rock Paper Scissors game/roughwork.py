@@ -67,3 +67,20 @@
 #     random_letters = random.choice(letters)
 #     password += random_letters
 # print(password)
+
+numbers = [3, 7, 2, 9, 3]
+numbers_set = set(numbers)
+
+def find_double(nums,nums_set):
+    is_double = False
+    if len(nums) != len(nums_set):
+        is_double = True
+
+    return is_double
+
+print(find_double(numbers,numbers_set))
+
+
+
+
+
