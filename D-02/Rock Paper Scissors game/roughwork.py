@@ -68,17 +68,46 @@
 #     password += random_letters
 # print(password)
 
-numbers = [3, 7, 2, 9, 3]
-numbers_set = set(numbers)
+# numbers = [3, 7, 2, 9, 3, 8]
 
-def find_double(nums,nums_set):
-    is_double = False
-    if len(nums) != len(nums_set):
-        is_double = True
+# def largest_number(nums):
+#     largest = numbers[0]
+#     for num in nums:
+#         if num > largest:
+#             largest = num
+      
 
-    return is_double
+#     return largest
 
-print(find_double(numbers,numbers_set))
+# largest = largest_number(numbers)
+# numbers.remove(largest)
+# print(largest_number(numbers))
+
+numbers = [5, 5, 5, 5]
+
+def largest_and_2ndlargest_numbers(nums):
+    biggest = None
+    second_biggest = None
+
+    for num in nums:
+        if num > biggest: 
+            second_biggest = biggest
+            biggest = num
+
+        elif num < biggest and second_biggest == None:
+            second_biggest = num
+
+        elif num < biggest and num > second_biggest:
+            second_biggest = num
+
+    return f"biggest:{biggest}, second biggest:{second_biggest}"
+
+print(largest_and_2ndlargest_numbers(numbers))
+
+        
+
+
+            
 
 
 
