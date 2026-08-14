@@ -83,26 +83,26 @@
 # numbers.remove(largest)
 # print(largest_number(numbers))
 
-numbers = [5, 5, 5, 5]
+# numbers = [5, 5, 5, 5]
 
-def largest_and_2ndlargest_numbers(nums):
-    biggest = None
-    second_biggest = None
+# def largest_and_2ndlargest_numbers(nums):
+#     biggest = None
+#     second_biggest = None
 
-    for num in nums:
-        if num > biggest: 
-            second_biggest = biggest
-            biggest = num
+#     for num in nums:
+#         if num > biggest: 
+#             second_biggest = biggest
+#             biggest = num
 
-        elif num < biggest and second_biggest == None:
-            second_biggest = num
+#         elif num < biggest and second_biggest == None:
+#             second_biggest = num
 
-        elif num < biggest and num > second_biggest:
-            second_biggest = num
+#         elif num < biggest and num > second_biggest:
+#             second_biggest = num
 
-    return f"biggest:{biggest}, second biggest:{second_biggest}"
+#     return f"biggest:{biggest}, second biggest:{second_biggest}"
 
-print(largest_and_2ndlargest_numbers(numbers))
+# print(largest_and_2ndlargest_numbers(numbers))
 
         
 
@@ -110,6 +110,18 @@ print(largest_and_2ndlargest_numbers(numbers))
             
 
 
+
+numbers = [3, 7, 3, 2, 7, 3, 9,3]
+
+
+def count_number(nums,target):
+    count = 0
+    for num in nums:
+        if target < num:
+            count += 1
+    return count
+            
+print(count_number(numbers, 5))
 
 
 
