@@ -1,3 +1,4 @@
 .env
 flight_cache.sqlite
 browser.json
+chrome_profile
