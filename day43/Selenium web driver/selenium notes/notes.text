@@ -1,0 +1,388 @@
+==================================================
+SELENIUM - NOTES
+==================================================
+
+1. CHROME OPTIONS
+==================================================
+
+Keep Chrome open after the program finishes:
+
+chrome_options.add_experimental_option("detach", True)
+
+
+2. CHROME PROFILE
+==================================================
+
+Create a separate Chrome profile for the project.
+
+os.getcwd()
+→ Returns the current working directory.
+
+Path(__file__).parent
+→ Returns the folder where the Python file is located.
+
+os.path.join()
+→ Joins paths together.
+
+--user-data-dir
+→ Tells Chrome where to store the profile data.
+
+
+3. find_element() vs find_elements()
+==================================================
+
+find_element()
+→ Finds ONE element.
+
+driver.find_element(By.ID, "email")
+
+find_elements()
+→ Finds MULTIPLE matching elements and returns a list.
+
+driver.find_elements(By.CSS_SELECTOR, "p[id^='class-time-']")
+
+
+4. CSS SELECTORS
+==================================================
+
+[id^='class-time-']
+→ Finds elements whose ID STARTS WITH "class-time-".
+
+^=
+→ Means "starts with".
+
+Example:
+
+p[id^='class-time-']
+
+→ Find <p> elements whose ID starts with "class-time-".
+
+
+5. .text
+==================================================
+
+Gets the visible text of an element.
+
+element.text
+
+Example:
+
+<p>6:00 PM</p>
+
+element.text
+→ "6:00 PM"
+
+
+6. get_attribute()
+==================================================
+
+Gets an HTML attribute from an element.
+
+element.get_attribute("id")
+→ Gets the element's ID.
+
+element.get_attribute("outerHTML")
+→ Gets the complete HTML of the element.
+
+outerHTML = element + everything inside it.
+
+innerHTML = everything inside the element.
+
+
+7. HTML PARENT / CHILD / ANCESTOR
+==================================================
+
+HTML can be thought of as a family tree.
+
+Parent
+→ Element directly surrounding another element.
+
+Child
+→ Element inside another element.
+
+Ancestor
+→ Any element above another element in the HTML tree.
+
+XPath:
+
+"./.."
+→ Move to the parent.
+
+"./../../.."
+→ Move three levels upward.
+
+
+8. SEARCHING INSIDE AN ELEMENT
+==================================================
+
+You can search inside an element you've already found.
+
+class_card.find_element(By.TAG_NAME, "button")
+
+This means:
+→ Find a button INSIDE class_card.
+
+This is useful because you don't accidentally find
+a button belonging to another part of the page.
+
+
+9. By.TAG_NAME
+==================================================
+
+Finds an element using its HTML tag.
+
+By.TAG_NAME, "button"
+→ Finds <button>
+
+By.TAG_NAME, "h3"
+→ Finds <h3>
+
+
+10. DYNAMIC ELEMENT SEARCH
+==================================================
+
+Avoid hard-coding a specific element when possible.
+
+BAD:
+Find a specific button ID that contains the date/class.
+
+BETTER:
+Find all classes
+→ Find the correct day
+→ Find the correct time
+→ Find the class card
+→ Find the button inside that card
+
+This makes the automation more flexible.
+
+
+11. TWO-LEVEL / MULTI-LEVEL SEARCH
+==================================================
+
+Example:
+
+class_time
+    ↑
+class content
+    ↑
+class card
+    ↑
+day group
+
+We can move upward using XPath:
+
+class_time.find_element(By.XPATH, "./../../..")
+
+Then search inside the class card.
+
+
+12. WEBDRIVERWAIT
+==================================================
+
+Websites don't always load everything immediately.
+
+Selenium might try to find an element before the
+website has created it.
+
+This can cause:
+NoSuchElementException
+
+WebDriverWait lets Selenium wait intelligently.
+
+
+13. EXPLICIT WAIT
+==================================================
+
+Create a wait:
+
+wait = WebDriverWait(driver, 10)
+
+Wait until a condition becomes true:
+
+wait.until(condition)
+
+Selenium keeps checking instead of blindly sleeping.
+
+
+14. presence_of_element_located()
+==================================================
+
+Wait until an element EXISTS in the DOM.
+
+wait.until(
+    ec.presence_of_element_located(
+        (By.ID, "schedule-page")
+    )
+)
+
+IMPORTANT:
+
+Presence
+→ Element exists.
+
+Visibility
+→ Element is visible.
+
+Clickable
+→ Element can be clicked.
+
+
+15. IMPLICIT WAIT
+==================================================
+
+driver.implicitly_wait(10)
+
+Means:
+→ Whenever Selenium searches for an element,
+  wait up to 10 seconds if it isn't immediately found.
+
+It is GLOBAL for the session.
+
+
+16. IMPLICIT vs EXPLICIT WAIT
+==================================================
+
+IMPLICIT:
+"Wait this long whenever searching for elements."
+
+EXPLICIT:
+"Wait until THIS specific condition happens."
+
+Explicit waits are more precise.
+
+Avoid mixing implicit and explicit waits because
+it can create unpredictable waiting times.
+
+
+17. RACE CONDITION
+==================================================
+
+A race condition can happen when Selenium runs before
+the website is ready.
+
+Example:
+
+Selenium → Find button
+Website  → Still loading button
+Selenium → ❌ Element not found
+
+This can create FLAKY TESTS.
+
+Flaky test:
+→ Sometimes works
+→ Sometimes fails
+
+WebDriverWait helps solve this.
+
+
+18. time.sleep() vs WebDriverWait
+==================================================
+
+time.sleep(5)
+→ Always waits exactly 5 seconds.
+
+Problem:
+→ Website might be ready after 1 second.
+→ Or might need 7 seconds.
+
+WebDriverWait:
+→ Checks repeatedly.
+→ Continues as soon as the condition is satisfied.
+
+Therefore:
+WebDriverWait > blind sleep for Selenium synchronization.
+
+
+19. IMPORTANT SELENIUM PATTERN
+==================================================
+
+FIND BROADLY
+      ↓
+NARROW DOWN
+      ↓
+MOVE THROUGH THE DOM
+      ↓
+CHECK CONDITION
+      ↓
+INTERACT
+
+
+20. GYM BOOKING EXAMPLE
+==================================================
+
+Find all class times
+
+class_times = driver.find_elements(
+    By.CSS_SELECTOR,
+    "p[id^='class-time-']"
+)
+
+Loop through them
+      ↓
+Find their day group
+      ↓
+Check if day is correct
+      ↓
+Check if THIS class has the correct time
+      ↓
+Find its class card
+      ↓
+Find Book Class / Join Waitlist
+      ↓
+Click
+
+
+==================================================
+QUICK REVISION
+==================================================
+
+find_element()
+→ Find ONE element.
+
+find_elements()
+→ Find MULTIPLE elements.
+
+.text
+→ Get visible text.
+
+get_attribute()
+→ Get an HTML attribute.
+
+outerHTML
+→ Get the element's HTML.
+
+By.ID
+→ Find by ID.
+
+By.TAG_NAME
+→ Find by HTML tag.
+
+By.CSS_SELECTOR
+→ Find using CSS selector.
+
+^=
+→ "Starts with".
+
+./..
+→ Parent.
+
+element.find_element()
+→ Search inside an element.
+
+WebDriverWait
+→ Wait intelligently.
+
+wait.until()
+→ Wait until a condition is true.
+
+presence_of_element_located()
+→ Element exists in the DOM.
+
+
+==================================================
+CORE IDEA:
+
+Don't just tell Selenium WHAT to click.
+Learn how to FIND the correct element dynamically.
+
+==================================================
