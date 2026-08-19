@@ -18,9 +18,7 @@ ACCOUNT_PASSWORD = "mohiuddin@14"
 GYM_URL = "https://appbrewery.github.io/gym/"
 
 
-# ==================================================
 # CHROME SETUP
-# ==================================================
 
 # Create Chrome options so we can customize the browser
 chrome_options = webdriver.ChromeOptions()
@@ -42,105 +40,88 @@ chrome_options.add_argument(f"--user-data-dir={user_data_dir}")
 # Open Chrome using our custom options
 driver = webdriver.Chrome(options=chrome_options)
 
-# Open the gym website
-driver.get(GYM_URL)
 
-
-# ==================================================
 # WAIT SETUP
-# ==================================================
-
 # Create an explicit wait with a maximum wait time of 10 seconds
 wait = WebDriverWait(driver, 10)
 
 
-# ==================================================
-# LOGIN
-# ==================================================
 
-# Wait until the login button becomes clickable
-login_button = wait.until(
-    ec.element_to_be_clickable(
-        (By.XPATH, '//*[@id="home-page"]/section[1]/div/div/a[1]/button')
-    )
-)
-
-# Click the login button
-login_button.click()
-
-
-# Wait until the email input exists on the page
-enter_email = wait.until(
-    ec.presence_of_element_located(
-        (By.XPATH, '//*[@id="email-input"]')
-    )
-)
-
-# Clear anything already inside the email field
-enter_email.clear()
-
-# Enter the account email
-enter_email.send_keys(ACCOUNT_EMAIL)
-
-
-# Find the password field
-enter_password = driver.find_element(
-    By.XPATH,
-    '//*[@id="password-input"]'
-)
-
-# Clear the password field
-enter_password.clear()
-
-# Enter the account password
-enter_password.send_keys(ACCOUNT_PASSWORD)
-
-
-# Find the login/submit button
-press_login = driver.find_element(
-    By.XPATH,
-    '//*[@id="submit-button"]'
-)
-
-# Click the login button
-press_login.click()
-
-
-# ==================================================
-# WAIT FOR THE SCHEDULE PAGE
-# ==================================================
-
-# Wait until the schedule page exists
-wait.until(
-    ec.presence_of_element_located(
-        (By.ID, "schedule-page")
-    )
-)
-
-
-# ==================================================
 # COUNTERS
-# ==================================================
-
-# Count new bookings
-bookings = 0
-
-# Count new waitlists joined
-waitlists = 0
-
-# Count classes that were already booked or waitlisted
-already_booked_or_waitlisted = 0
-
 # Count total matching Tuesday 6 PM classes processed
 total_processed = 0
 
 
+
+# LOGIN
+def login():
+
+    # Open the gym website
+    driver.get(GYM_URL)
+
+    # Wait until the login button becomes clickable
+    login_button = wait.until(
+        ec.element_to_be_clickable(
+            (By.XPATH, '//*[@id="home-page"]/section[1]/div/div/a[1]/button')
+        )
+    )
+
+    # Click the login button
+    login_button.click()
+
+
+    # Wait until the email input exists on the page
+    enter_email = wait.until(
+        ec.presence_of_element_located(
+            (By.XPATH, '//*[@id="email-input"]')
+        )
+    )
+
+    # Clear anything already inside the email field
+    enter_email.clear()
+
+    # Enter the account email
+    enter_email.send_keys(ACCOUNT_EMAIL)
+
+
+    # Find the password field
+    enter_password = driver.find_element(
+        By.XPATH,
+        '//*[@id="password-input"]'
+    )
+
+    # Clear the password field
+    enter_password.clear()
+
+    # Enter the account password
+    enter_password.send_keys(ACCOUNT_PASSWORD)
+
+
+    # Find the login/submit button
+    press_login = driver.find_element(
+        By.XPATH,
+        '//*[@id="submit-button"]'
+    )
+
+    # Click the login button
+    press_login.click()
+
+    print("Login button clicked. Waiting for schedule page...")
+
+    # WAIT FOR THE SCHEDULE PAGE
+
+    # Wait until the schedule page exists
+    wait.until(
+        ec.presence_of_element_located(
+            (By.ID, "schedule-page")
+        )
+    )
+
+
 def book_class(day):
 
-    # ==================================================
     # FIND THE 6 PM CLASS for the given day
-    # ==================================================
-
+    
     # Find all <p> elements whose ID starts with "class-time-"
     class_times = driver.find_elements(
         By.CSS_SELECTOR,
@@ -178,11 +159,8 @@ def book_class(day):
                 value="button"
             )
 
-
-            # ==================================================
             # CHECK BOOKING STATUS
-            # ==================================================
-
+            
             button_status = book_button.text
 
             # Only click if the class isn't already booked
@@ -190,11 +168,8 @@ def book_class(day):
             if book_button.text != "Booked" and book_button.text != "Waitlisted":
                 book_button.click()
 
-
-            # ==================================================
             # GET CLASS DETAILS
-            # ==================================================
-
+        
             # Find the day title inside the day group
             date = parent.find_element(
                 By.CLASS_NAME,
@@ -207,15 +182,9 @@ def book_class(day):
                 value="h3"
             )
 
-
-            # ==================================================
-            # UPDATE COUNTERS + PRINT MESSAGE
-            # ==================================================
-
+            #PRINT MESSAGE
+            
             if button_status == "Waitlisted":
-
-                # Already on the waitlist
-                already_booked_or_waitlisted += 1
 
                 print(
                     f"✓ Already on waitlist: "
@@ -224,18 +193,12 @@ def book_class(day):
 
             elif button_status == "Join Waitlist":
 
-                # Successfully joined the waitlist
-                waitlists += 1
-
                 print(
                     f"✓ Joined waitlist for: "
                     f"{class_name.text} on {date.text}"
                 )
 
             elif button_status == "Booked":
-
-                # Already booked
-                already_booked_or_waitlisted += 1
 
                 print(
                     f"✓ Already booked: "
@@ -244,27 +207,73 @@ def book_class(day):
 
             else:
 
-                # Successfully made a new booking
-                bookings += 1
-
                 print(
                     f"✓ Booked: "
                     f"{class_name.text} on {date.text}"
                 )
 
-book_class(day="Thu")
-book_class(day="Fri")
+    print(f"\nbook_class() worked for {day}\n")
 
+def retry(func, retries=7, description=None):
 
-# ==================================================
-# BOOKING SUMMARY
-# ==================================================
+    for attempt in range(retries):
 
-print("\n--- BOOKING SUMMARY ---")
-print(f"Classes booked: {bookings}")
-print(f"Waitlists joined: {waitlists}")
-print(f"Already booked/waitlisted: {already_booked_or_waitlisted}")
-print(f"Total 6pm classes processed: {total_processed}")
+        try:
+            func()
+            return True
+
+        except Exception as e:
+            print(f"Attempt {attempt + 1} failed: {type(e).__name__}: {e}")
+
+    return False
+
+login_success = retry(login)
+
+if not login_success:
+    print("❌ Login failed after all retries.")
+    driver.quit()
+    exit()
+
+thursday_success = retry(lambda: book_class(day="Thu"))
+if not thursday_success:
+    print("❌ failed to book a class.")
+    driver.quit()
+    exit()
+
+saturday_success = retry(lambda: book_class(day="Sat"))
+if not saturday_success:
+    print("❌ failed to book a class.")
+    driver.quit()
+    exit()
+# # BOOKING SUMMARY
+
+print(f"Total Tuesday/Thursday 6pm classes: {total_processed}")
+
+#verifing on my bookings page
+
+my_bookings_button = driver.find_element(By.XPATH, value='//*[@id="my-bookings-link"]')
+my_bookings_button.click()
+
+count_of_bookings = wait.until(ec.presence_of_element_located((By.XPATH,'//*[@id="my-bookings-page"]')))
+booked_count =count_of_bookings.get_attribute("data-bookings-count")
+waitlisted_count = count_of_bookings.get_attribute("data-waitlist-count")
+total_bookings = int(booked_count) + int(waitlisted_count)
+
+print("--- VERIFYING ON MY BOOKINGS PAGE ---")
+print(f"✓ Verified: {booked_count} booked class")
+print(f"✓ Verified: {waitlisted_count} class in Waitlist")
+
+if total_bookings == total_processed:
+    print("--- VERIFICATION RESULT ---")
+    print(f"Expected: {total_processed} bookings")
+    print(f"Found: {total_bookings} bookings")
+    print("✅ SUCCESS: All bookings verified!")
+
+else:
+    print("--- VERIFICATION RESULT ---")
+    print(f"Expected: {total_processed} bookings")
+    print(f"Found: {total_bookings} bookings")
+    print("! ERROR: found less bookings then Expected")    
 
 
 #Close the browser
