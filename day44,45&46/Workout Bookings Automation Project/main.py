@@ -17,7 +17,6 @@ ACCOUNT_PASSWORD = "mohiuddin@14"
 # Website URL
 GYM_URL = "https://appbrewery.github.io/gym/"
 
-
 # CHROME SETUP
 
 # Create Chrome options so we can customize the browser
