@@ -59,18 +59,14 @@ class SendANaanBot:
             By.XPATH, '/html/body/div[2]/div/div[3]'
         )))
 
-        followers_list = self.driver.find_elements(
-            By.CLASS_NAME,
-            "naan-follower-row"
-        )
-
-        print("Followers found:", len(followers_list))
-
-        for i, follower in enumerate(followers_list):
-            button = follower.find_element(By.TAG_NAME, "button")
-
-            print(i, repr(button.text))
-
+        followers_list = self.driver.find_elements(By.CLASS_NAME, value="naan-follower-row")
+        if followers_list:
+            self.driver.execute_script("arguments[0].scrollIntoView(true);", followers_list[-1])
+        for follower in followers_list:
+            button = follower.find_element(By.TAG_NAME, value="button")
+            if button.text == "Follow":
+                button.click()
+            
 bot = SendANaanBot()
 bot.follow_accounts()
 
